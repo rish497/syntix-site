@@ -5,7 +5,7 @@ Published with GitHub Pages from rish497/syntix-site, main branch, repository ro
 Website: https://rish497.github.io/syntix-site/
 Privacy: https://rish497.github.io/syntix-site/privacy.html
 Terms: https://rish497.github.io/syntix-site/terms.html
-Version 0.2 application source: https://rish497.github.io/syntix-site/sources/Syntix-0.2-source.zip
+Version 2.1 application source: https://rish497.github.io/syntix-site/sources/Syntix-2.1-source.zip
 
 The small, readable Source code footer link downloads the versioned archive. Keep older release archives available and provide clear source directions with binary/store distributions. The development repository remains private; the downloadable application source is public under the included licence. Application-source availability does not certify resolution of native-build provenance or complete corresponding-source obligations; see the audit documents in the archive.
 

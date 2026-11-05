@@ -71,3 +71,10 @@ Syntix is intended for people aged 13 and older (13+), and is not intended for c
 ## Questions and changes
 
 Contact mittal.rishabh2010@gmail.com with privacy questions. Include only information needed to explain your request; do not send account passwords or tokens. Future changes to the app's data handling require updating this policy and its effective date. This draft must be completed and reviewed before public publication.
+
+
+## Google Play update checks
+
+For installations attributed to Google Play, Syntix uses Google's Play In-App Updates SDK to check for eligible updates when the app returns to the foreground and to display Google's immediate-update flow. Google's documentation lists device metadata, application version, and installed module/asset-pack information as used to determine update availability and size. Google Play handles these requests and installation under its own terms and privacy practices. The app does not send listening history, searches, profiles or playlists to the update SDK. Store/network failure does not block offline playback. Users of other installers do not receive this Play-specific flow.
+
+Song-add recommendations use playlist names, artists and retained listening metadata to construct YouTube Music catalog queries. More results are requested when the recommendation grid reaches the end; dismissing the grid cancels its pending request.
