@@ -3,7 +3,7 @@
 Developer/operator: Rishabh Mittal
 Contact email: mittal.rishabh2010@gmail.com
 Proposed effective date: 3 November 2026 (subject to actual publication)
-Last updated: 3 November 2026 (draft; not legal approval)
+Last updated: 4 November 2026 (draft; not legal approval)
 Operator location: Indirapuram, Ghaziabad, Uttar Pradesh, India
 Intended release regions: worldwide
 Planned distribution: Uptodown and Aptoide
@@ -11,13 +11,13 @@ Applicable law: mandatory legal protections continue to apply. These terms do no
 
 ## About Syntix
 
-Syntix is an independent Android application with local music libraries, playlist importing, playback, offline downloading and file-export tools. It is not affiliated with, endorsed by, sponsored by or an official product of YouTube, Google, Spotify or their affiliates. Their names and marks belong to their owners. Local profiles are not verified Google/Spotify accounts, are not password-protected and do not grant paid-service entitlements.
+Syntix is an independent Android application with local music libraries, playlist importing, playback and managed offline listening. It is not affiliated with, endorsed by, sponsored by or an official product of YouTube, Google, Spotify or their affiliates. Their names and marks belong to their owners. Local profiles are not verified Google/Spotify accounts, are not password-protected and do not grant paid-service entitlements.
 
 ## Content and personal use
 
 Use content-related features for lawful personal, non-commercial listening and only as permitted by the content owner, relevant service and applicable law. You are responsible for the material you access, import, play, copy, download, transform, export or share, and for obtaining necessary rights or permission. A public URL, successful download or acknowledgement of a rights reminder is not proof of permission. Personal use is not automatically an exception to service restrictions or copyright law.
 
-Syntix does not transfer ownership of third-party content or give permission to redistribute it. Downloads, Rip Audio and Export Video are technical capabilities, not a license to any recording, video, composition, artwork or playlist. Do not use the app to infringe rights or unlawfully circumvent access controls. These content-use terms do not impose additional restrictions on rights granted to the app's software by its applicable open-source licenses.
+Syntix does not transfer ownership of third-party content or give permission to redistribute it. Offline downloads are technical capabilities, not a license to any recording, video, composition, artwork or playlist. Do not use the app to infringe rights or unlawfully circumvent access controls. These content-use terms do not impose additional restrictions on rights granted to the app's software by its applicable open-source licenses.
 
 ## External services
 

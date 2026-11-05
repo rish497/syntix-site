@@ -3,7 +3,7 @@
 Developer/operator: Rishabh Mittal
 Contact email: mittal.rishabh2010@gmail.com
 Proposed effective date: 3 November 2026 (subject to actual publication)
-Last updated: 3 November 2026 (draft; not legal approval)
+Last updated: 5 November 2026 (draft; not legal approval)
 Operator location: Indirapuram, Ghaziabad, Uttar Pradesh, India
 Intended release regions: worldwide
 Planned distribution: Uptodown and Aptoide
@@ -22,14 +22,16 @@ Statistics record listening time, artist/channel listening totals, app network-b
 
 Preferences include a local record of Terms acceptance/privacy acknowledgement (document version and timestamp), onboarding state, library layout, sound/equalizer and sleep-timer options, download quality, Wi-Fi-only downloading and download progress/indexes. Public search-result metadata is cached in app files with a bounded index and seven-day freshness limit. A shared, device-local Spotify recording-match cache holds up to 512 matches for seven days; it is not isolated by profile. Expired caches are not a promise of immediate physical erasure from storage. Artwork uses memory and an approximately 8 MiB HTTP disk cache. The extraction engine, its version/update information and supporting runtime files are also stored locally.
 
-Offline audio is stored in private app files, separated by profile. Audio/MP4 exports are written to the destination you choose. Local audio and profile-photo selections retain document-provider URI references/access grants; Syntix does not need to upload a profile photo to display it. Temporary export files are created in app cache and deletion is attempted when the operation finishes. Errors may be written to Android's local system logs; no automatic developer log-upload path was identified.
+Completed offline audio is stored in per-profile private app files using AES-256-GCM authenticated encryption. Each file has its own random audio key, wrapped by an installation-local Android Keystore key. Playback decrypts authenticated chunks in memory to support seeking without creating a decrypted playback file. Existing indexed downloads are converted in the background or when first opened. Failed migrations retain the original and report that the download needs attention; encryption is not claimed complete until conversion succeeds. Download fragments and temporary transcoding files can contain plaintext in private app storage until completion. App encryption does not cover metadata, profiles, user-selected local audio, files saved by previous versions outside the app, or copies made by other apps. It is not service-authorized DRM and does not grant content rights. Clearing app data, uninstalling or losing the installation key can make saved encrypted audio unusable; download authorized content again if necessary.
+
+Local audio and profile-photo selections retain document-provider URI references/access grants. Syntix does not need to upload a profile photo to display it. The current version does not offer standalone audio/video file exports. Errors may be written to Android's local system logs; no automatic developer log-upload path was identified.
 
 ## Information sent to external services
 
-- YouTube/Google receive search terms, autocomplete text, video and playlist identifiers/URLs, and requests needed to retrieve metadata or media. Recommendation searches can include song titles and channels derived from your local listening history. Spotify-to-YouTube matching sends the source song's title and artist as YouTube search queries.
-- Google autocomplete is requested from `suggestqueries.google.com/complete/search`. YouTube search uses `www.youtube.com/results` and `www.youtube.com/youtubei/v1/search`. The latter is an internal web-client endpoint, not a configured YouTube Data API project.
-- YouTube playback, downloads and exports use yt-dlp through youtubedl-android and media requests to URLs returned by that engine, including YouTube/Google media hosts such as subdomains of `googlevideo.com`. YouTube page/player/script endpoints and redirects can vary with the upstream engine.
-- Spotify playlist import requests public pages at `open.spotify.com/embed/playlist/{id}` and `open.spotify.com/playlist/{id}`. The inspected import does not sign into Spotify or retrieve Spotify audio.
+- YouTube/Google receive search terms, autocomplete text, video and playlist identifiers/URLs, and requests needed to retrieve metadata or media. Recommendation and public-playlist discovery searches can include song titles and channels derived from your local listening history. Public-playlist discovery metadata is cached per profile for freshness, and preset cartoon profile pictures are bundled in the APK. Spotify-to-YouTube matching sends the source song's title and artist as YouTube search queries.
+- Google autocomplete is requested from `suggestqueries.google.com/complete/search`. YouTube search uses `www.youtube.com/results` and `www.youtube.com/youtubei/v1/search`, `/youtubei/v1/browse` for playlist metadata, and `/youtubei/v1/player` for public audio metadata. Recording matching also requests catalog song metadata from `music.youtube.com/youtubei/v1/search`. These are internal web-client endpoints, not a configured YouTube Data API project.
+- YouTube playback and downloads use yt-dlp through youtubedl-android and media requests to URLs returned by that engine, including YouTube/Google media hosts such as subdomains of `googlevideo.com`. YouTube page/player/script endpoints and redirects can vary with the upstream engine. Native playback reuses anonymous visitor context supplied by YouTube, reused in memory with a 30-minute freshness window; it does not read Google account cookies. A small HTTP range request checks a returned public stream before use, without saving that probe as a download.
+- Spotify song import requests public track metadata at `open.spotify.com/embed/track/{id}` and matches the title and artists to a YouTube recording; Spotify preview audio is not used. Spotify playlist import requests public pages at `open.spotify.com/embed/playlist/{id}` and `open.spotify.com/playlist/{id}`. Full-list pagination also requests an anonymous web session from `open.spotify.com/api/token` and public metadata from `api-partner.spotify.com/pathfinder/v1/query`. Public web-client configuration is requested from `code.thetadev.de/ThetaDev/spotify-secrets/`; that host receives the configuration-file request and ordinary connection information, not your playlist or song queries. The anonymous session is held in memory and is not a user Spotify login. The import does not retrieve Spotify audio.
 - Artwork requests go to `i.ytimg.com` or another HTTPS image URL supplied in media metadata. Those URLs and any subsequent redirects determine the image host actually contacted.
 - The implemented stable playback-engine update action checks `api.github.com/repos/yt-dlp/yt-dlp/releases/latest` and downloads an upstream release asset via GitHub and its delivery hosts. It does not upload your library. The action remains in the legacy Settings code, which currently has no normal Settings navigation entry.
 
@@ -37,14 +39,14 @@ These services and network intermediaries can receive your IP address, the reque
 
 A new-profile checkbox records Terms acceptance and acknowledgement of this policy locally. It is not a parental-consent mechanism or a claim that all processing is based on consent. Existing profiles are not blocked by a new startup acceptance screen.
 
-Selecting a file provider or sharing/exporting a file can involve other apps or cloud storage chosen by you. Exported content and backups may therefore leave the physical device through that provider. Syntix's use of the Android file picker is not a guarantee that the destination is local-only.
+Selecting a file provider or sharing a library backup or exporting application source can involve other apps or cloud storage chosen by you. Exported content and backups may therefore leave the physical device through that provider. Syntix's use of the Android file picker is not a guarantee that the destination is local-only.
 
 ## Permissions and device access
 
 - INTERNET and ACCESS_NETWORK_STATE: retrieve metadata, artwork, media and engine updates; observe connectivity, including Wi-Fi-only download preferences.
 - WAKE_LOCK: support media playback without the CPU sleeping mid-playback.
 - FOREGROUND_SERVICE and FOREGROUND_SERVICE_MEDIA_PLAYBACK: ongoing playback with Android media controls.
-- FOREGROUND_SERVICE_DATA_SYNC: foreground offline-download and file-export work.
+- FOREGROUND_SERVICE_DATA_SYNC: foreground offline-download and conversion work.
 - POST_NOTIFICATIONS: media/download status and controls, subject to Android notification permission settings.
 - AndroidX adds an app-specific, signature-protected dynamic-receiver permission in the merged manifest; it is not an additional user-data permission.
 
@@ -60,7 +62,7 @@ To remove all private Syntix data, use Android Settings, Apps, Syntix, Storage, 
 
 ## Backup and security limits
 
-The manifest sets `allowBackup=false` and defines no `dataExtractionRules` or `fullBackupContent` rules. No developer cloud backup/sync is configured. Android/OEM device-transfer behavior can vary; this is not a guarantee that every device-transfer mechanism is disabled. Private preferences/files and the SQLite database use Android app storage protections, without app-level profile passwords or a separate app-managed encryption layer identified in this audit. Keep the phone itself secured.
+The manifest sets `allowBackup=false` and defines no `dataExtractionRules` or `fullBackupContent` rules. No developer cloud backup/sync is configured. Android/OEM device-transfer behavior can vary; this is not a guarantee that every device-transfer mechanism is disabled. Private preferences/files and the SQLite database use Android app storage protections, without app-level profile passwords. Completed managed offline audio has the encryption described above; other local records are not separately encrypted by Syntix. Keep the phone itself secured.
 
 ## Children
 
